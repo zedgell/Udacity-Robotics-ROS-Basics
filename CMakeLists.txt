@@ -8,10 +8,10 @@ project(simple_arm)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-	std_msgs
-	message_generation
-	controller_manager
-)
+		std_msgs
+		message_generation
+		controller_manager
+		)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -54,10 +54,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ### Generate services in the 'srv' folder
-#add_service_files(
-#   FILES
-#   GoToPosition.srv
-#)
+add_service_files(
+   FILES
+   GoToPosition.srv
+)
+
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -67,10 +68,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ### Generate added messages and services with any dependencies listed here
-#generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-#)
+generate_messages(
+   DEPENDENCIES
+   std_msgs  # Or other packages containing msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -102,10 +103,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES simple_arm
-#  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
+		#  INCLUDE_DIRS include
+		#  LIBRARIES simple_arm
+		#  CATKIN_DEPENDS other_catkin_pkg
+		#  DEPENDS system_lib
 )
 
 ###########
@@ -193,3 +194,12 @@ catkin_package(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+include_directories(include ${catkin_INCLUDE_DIRS})
+
+add_executable(simple_mover src/simple_mover.cpp)
+add_executable(arm_mover src/arm_mover.cpp)
+target_link_libraries(simple_mover ${catkin_LIBRARIES})
+add_dependencies(simple_mover simple_arm_generate_messages_cpp)
+target_link_libraries(arm_mover ${catkin_LIBRARIES})
+add_compile_options(-std=c++11)
